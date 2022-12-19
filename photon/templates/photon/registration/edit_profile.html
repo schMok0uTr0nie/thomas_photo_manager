@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit profile{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="container content" style="text-align: center;">
+        <div style="display: inline-block; width: 600px;">
+            <h2>Расскажи о себе:</h2><br>
+            <form method="post" class="bootstrap-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-success" value="Сохранить">
+            </form>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

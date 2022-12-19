@@ -1,0 +1,25 @@
+{% load static %}
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-light justify-content-between" style="background-color: #FF8C00;">
+    <a class="navbar-brand" href="/"><img src="{% static 'img/logo2.jpg' %}" alt="logo" width="220px" height="100px" ></a>
+
+    {% if user.is_authenticated and user.profile %}
+    <div>
+
+    </div>
+
+    <div>
+        <span><a class="btn btn-outline-primary" href="{% url 'profile' request.user.profile %}">{{request.user.profile}}</a>
+        <a class="btn btn-outline-primary" href="{% url 'logout' %}">Выйти</a></span>
+    </div>
+
+    {% elif login or register %}
+        <div class="mx-auto">
+        </div>
+
+    {% else %}
+
+    <span><a class="btn btn-outline-primary" href="{% url 'login' %}">Login</a>
+        <a class="btn btn-outline-primary" href="{% url 'register' %}">Register</a></span>
+    {% endif %}
+</nav>

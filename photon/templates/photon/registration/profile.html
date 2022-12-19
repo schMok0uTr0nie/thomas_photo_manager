@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ selected_user.nick }}{% endblock %}
+
+{% block content %}
+<div class="container content">
+{% if not selected_user.private and not your_profile %}
+    <div class="row" style="margin-left: 20px;">
+
+        <div class="col-6">
+            {% if selected_user.avatar.name %}
+                <img src="{{ selected_user.avatar.url }}" class="avatar-img-lg img-thumbnail" width="400px" height="400px">
+            {% else %}
+                <img src="{% static 'img/defaultava.png' %}" class="avatar-img img-thumbnail" >
+            {% endif %}
+            <br>
+        </div>
+        <div class="col-6">
+        <br>
+            <h4>{{ selected_user.nick }} | {{ selected_user.skill }} </h4>
+
+
+            {% if your_profile  %}
+                <a href="{% url 'edit_profile' selected_user %}" class="btn btn-sm btn-info">Редактировать профиль</a>
+                <br>
+
+            {% else %}
+                {% if subscription %}
+                    <a href="{% url 'unsubscribe_pro' selected_user %}" color="red">Отписаться</a>
+                {% else %}
+                    <a href="{% url 'subscribe_pro' selected_user %}" color="blue">Подписаться</a>
+                {% endif %}
+                <br>
+                <br>
+                <a href="{% url 'portfolio' selected_user %}" color="brown">Портфолио пользователя</a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+    <hr>
+
+
+    <div class="row" style="margin-left: 20px;">
+            <dl class="row">
+                {% if selected_user.fio %}
+                <dt class="col-sm-3 text-right" id="hua">Полное имя</dt>
+                <dd class="col-sm-9">{{ selected_user.fio }} </dd>
+                {% endif %}
+
+                <dt class="col-sm-3 text-right">Пол</dt>
+                <dd class="col-sm-9">{{ selected_user.get_gender_display }}</dd>
+
+                <br>
+                <dt class="col-sm-3 text-right">Город</dt>
+                <dd class="col-sm-9">{{ selected_user.city }}</dd>
+                <hr>
+
+                <dt class="col-sm-3 text-right">Камеры </dt>
+                <dd class="col-sm-9">
+                    {% for objs in selected_user.gear.all %}
+                      {{ objs }},
+                    {% endfor %}
+                </dd>
+
+                <hr>
+                <br>
+                {% if selected_user.contacts %}
+                    <dt class="col-sm-3 text-right">Контакты</dt>
+                    <dd class="col-sm-9">{{ selected_user.contacts }}</dd>
+                {% endif %}
+
+                <dt class="col-sm-3 text-right">Профиль</dt>
+                {% if selected_user.private %}
+                    <dd class="col-sm-9">Закрытый</dd>
+                {% else %}
+                    <dd class="col-sm-9">Открытый</dd>
+                {% endif %}
+
+
+            </dl>
+    </div>
+
+{% else %}
+    <h2>Это закрытый профиль!</h2>
+{% endif %}
+</div>
+{% endblock %}
+
+

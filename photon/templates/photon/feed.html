@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Feed{% endblock %}
+
+{% block content %}
+<br>
+<div class="feed">
+    {% if snap_filter.qs %}
+        <div class="row">
+        {% if not request.user.is_authenticated %}
+            <h4>Чтобы видеть все фото -> Войдите или Зарегистрируйтесь!</h4>    <br>
+        {% endif %}
+
+        <h2>Последние обновления:</h2>
+        </div>
+
+        {% for snap in snap_filter.qs %}
+        <hr>
+        <div class="row">
+                <div class="col-6">
+                    {% if snap.photo.name %}
+                        <a href="{% url 'show_snap' snap.pk %}">
+                            <img src="{{ snap.photo.url }}" class="img-thumbnail" width="300px" height="300px">
+                        </a>
+                        <br>
+                         ID: {{ snap.pk }}
+                    {% endif %}
+                </div>
+
+                <div class="col-6">
+                    <div class="post-title">
+
+                        <div class="post-author">
+                            <a href="{%  url 'profile' snap.author.profile %}">{{ snap.author.profile }}</a>
+                        </div>
+
+                        {% if snap.author.profile.avatar.name %}
+                            <a href="{% url 'profile' snap.author.profile %}">
+                                <img src="{{ snap.author.profile.avatar.url }}" class="post-author-img img-thumbnail" width="100px" height="100px">
+                            </a>
+                        {% else %}
+                            <a href="{% url 'profile' snap.author.profile %}">
+                                <img src="{% static 'img/defaultava.png' %}" class="post-author-img img-thumbnail" width="100px" height="100px">
+                            </a>
+                        {% endif %}
+
+
+                        <div class="post-datetime">
+                            {{ snap.timestamp|date:"d M Y H:i" }}
+                        </div>
+                        <hr>
+
+                        <div class="post-text">
+                            Описание: {{ snap.description|default_if_none:"" }}
+                            <hr>
+                            Камера: {{ snap.camera }}
+                            <br>
+                            Категории:
+                            {% for cat in snap.category.all %}
+                                <a href="{% url 'show_cat' cat.slug %}">{{ cat }}, </a>
+                            {% endfor %}
+                            <br>
+                            Местоположение:
+                            {% if snap.city %}{{ snap.city }} | {% endif %}
+                            {% if snap.region %}{{ snap.region }} | {% endif %}
+                            {% if snap.country %}{{ snap.country }}{% endif %}
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+        <div>
+        {% if not subs.subscriptions and not subs.categories and not subs.cameras %}
+            <h4>Вы ни на кого не подписаны(</h4>
+        {% else %}
+            <h4>Пока обновлений нет</h4>
+        {%  endif %}
+        </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}
+
+{% block rightside %}
+    {% include 'photon/blocks/filter.html' %} {# или нафиг и оставить в navbar?? #}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container content">
+    <div class="row justify-content-center" >
+        <div class="col-sm" style="width: 300px;">
+            <form class="bootstrap-form text-center" method="post">
+                <br>
+                {% csrf_token %}
+
+                {% if form.error %}
+                    {{ error }}
+                {% endif %}
+                <br>
+
+                {% for field in form %}
+                <div class="form-outline mb-4">
+                    {{ field }}
+                </div>
+                {% endfor %}
+
+                <input type="submit" class="btn btn-primary" value="Войти" >
+                <a class="btn btn-outline-primary" href="{% url 'register' %}">Регистрация</a>
+
+                <br>
+            </form>
+        </div>
+
+        <div class="col-sm text-center ">
+
+        </div>
+    </div>
+</div>
+{% endblock %}

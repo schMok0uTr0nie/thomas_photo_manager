@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Friends{% endblock %}
+
+
+
+{% block content %}
+<br>
+<div class="row">
+    {% if not your_profile %}
+    <h3> Портфолио пользователя: {{ selected_user }} ({{ snaps.count }})</h3>
+    {% if subscription %}
+        <a href="{% url 'unsubscribe_pro' selected_user %}" color="red">Отписаться</a>
+    {% else %}
+        <a href="{% url 'subscribe_pro' selected_user %}" color="blue">Подписаться</a>
+    {% endif %}
+{% else %}
+    <h3>Мое портфолио ({{ snaps.count }})</h3>
+    <a href="{% url 'upload_snap' %}" color="green">Загрузить фото</a>
+{% endif %}
+</div>
+    <hr>
+
+
+    {% if snaps %}
+    {% for snap in snap_filter.qs %}
+        <div class="row">
+            <div class="col-6">
+                <div class="post-title">
+                    <div class="snap-datetime">
+                        {{ snap.timestamp|date:"d M Y H:i" }}
+                    </div>
+                </div>
+
+                {% if snap.photo.name %}
+                    <a href="{% url 'show_snap' snap.pk %}"><img src="{{ snap.photo.url }}" class="img-thumbnail" width="200px" height="200px"></a><br>    {# задай размер фото в ленте! как в bazzinga расположение #}
+                {% endif %}
+            </div>
+
+            <div class="col-6">
+                    <div class="snap-text text-left">
+                        {{ snap.description|default_if_none:""|linebreaks|urlize }}
+                        <hr>
+                        <div class="snap-category">
+                            Category:
+                            {% for cat in snap.category.all %}
+                                <a href="{% url 'show_cat' cat.slug %}">{{ cat }}, </a>
+                            {% endfor %}
+                        </div>
+                        Камера: {{ snap.camera }} <br>
+                        Местоположение:
+                        {% if snap.city %}{{ snap.city }} | {% endif %}
+                        {% if snap.region %}{{ snap.region }} | {% endif %}
+                        {% if snap.country %}{{ snap.country }}{% endif %}
+                    </div>
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+
+    {% else %}
+        <br>
+        <h4> В портфолио нет фотографий!</h4>
+    {% endif %}
+
+{%  endblock %}
+
+{% block rightside %}
+    {% include 'photon/blocks/filter.html' %}
+{% endblock %}

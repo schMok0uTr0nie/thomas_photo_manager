@@ -1,0 +1,27 @@
+{% load static %}
+
+<div id="sidemenu">
+    <br>
+    <a href="{% url 'feed' %}">Лента</a>
+    <br>
+
+    {%  if user.is_authenticated %}
+    <a href="{% url 'subs' request.user.profile %}">Мои подписки</a>
+    <br>
+    <a href="{% url 'portfolio' request.user.profile %}">Мое портфолио</a>
+    <hr>
+    {% endif %}
+
+    <details>
+        <summary><a href="{% url 'cats' %}">Все Категории</a></summary>
+        <ul>
+        {% for cat in cats %}
+            <li>
+                <a href="{% url 'show_cat' cat.slug %}">{{ cat }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </details>
+
+    <br>
+</div>

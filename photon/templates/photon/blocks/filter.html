@@ -1,0 +1,16 @@
+{% load static %}
+
+
+<div class="col" id="filter">
+    <h4>Фильтры:</h4>
+    <form method="get">
+
+        {% for field in snap_filter.form %}
+            <div id="{{field.name}}" class="form-control">{{ field }}  </div>
+            <label class="form-label text-center" for="{{field.name}}">{{field.label}}</label>
+        {% endfor %}
+        <br>
+
+        <button class="btn btn-sm btn-success" type="submit">Применить</button>
+    </form>
+</div>

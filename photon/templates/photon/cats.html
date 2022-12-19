@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Friends{% endblock %}
+
+{% block content %}
+
+{% if not cat_filter %}
+    <div class="col-sm text-center" style="width: 300px" >
+        <details>
+            <summary>Создать новую категорию</summary>
+            <br>
+            <form method="post" class="text-center">
+                {% csrf_token %}
+
+                <div class="form-outline text-center">
+                    <input type="text" name="new_category" id="new_category" class="form-control"/>
+                    <label class="form-label" for="new_category">Название </label>
+                </div>
+                <br>
+                <button class="btn btn-sm btn-success" type="submit">Создать</button>
+            </form>
+
+        </details>
+    </div>
+
+    {{ message }}
+    <hr>
+
+    {% for cat in cats %}
+        <div>
+            <a href="{% url 'show_cat' cat.slug %}" color="green">{{ cat }}</a>
+        </div>
+    {% endfor %}
+
+{% else %}
+    <div class="cat_snaps">
+        {% if snaps %}
+        {% for snap in cat_filter.qs %}
+            <div class="card">
+                <div class="card-body post">
+                    <div class="post-title">
+                        {% if snap.author.profile.avatar.name %}
+                            <a href="{% url 'profile' snap.author.profile %}">
+                            <img src="{{ snap.author.profile.avatar.url }}" class="post-author-img img-thumbnail" width="100px" height="100px">
+                            </a>
+                        {% else %}
+                            <a href="{% url 'profile' snap.author.profile %}">
+                            <img src="{% static 'img/defaultava.png' %}" class="post-author-img img-thumbnail" width="100px" height="100px">
+                            </a>
+                        {% endif %}
+
+                        <div class="post-author">
+                            {{ snap.author.profile }}
+                        </div>
+                        <div class="post-datetime">
+                            {{ snap.datetime|date:"d M Y H:i" }}
+                        </div>
+                    </div>
+
+                    {% if snap.photo.name %}
+                        <a href="{% url 'show_snap' snap.pk %}">
+                        <img src="{{ snap.photo.url }}" class="img-thumbnail" width="200px" height="200px">
+                        </a>
+                        <br>
+                    {% endif %}
+                    <div class="post-text">
+                        {{ snap.description|default_if_none:""|linebreaks|urlize }}
+                        Category:
+                        {% for cat in snap.category.all %}
+                          {{ cat }},
+                        {% endfor %}
+                        {% if snap.city %}{{ snap.city }} | {% endif %}
+                        {% if snap.region %}{{ snap.region }} | {% endif %}
+                        {% if snap.country %}{{ snap.country }}{% endif %}
+
+                    </div>
+    {#            </div>#}
+                </div>
+            </div>
+        {% endfor %}
+
+        {% else %}
+            <div>
+                <h3>В этой категории нет фотографий...</h3>
+                <a class="btn btn-outline-primary" href="{% url 'cats' %}">Назад</a>
+            </div>
+        {% endif %}
+    </div>
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block rightside %}
+    {% include 'photon/blocks/filter.html' %}
+{% endblock %}
+

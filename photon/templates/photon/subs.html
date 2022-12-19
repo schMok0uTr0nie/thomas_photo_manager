@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Friends{% endblock %}
+
+{% block content %}
+
+    {% if not subs %}
+        <div>
+            <h3>У Вас нет активных подписок!</h3>
+        </div>
+
+    {% else %}
+        <br>
+        <h2>ПОДПИСКИ</h2><br><hr>
+        <div>
+
+        <h3>Профили:</h3><br>
+        {% for pro in subs.subscriptions.all %}
+            <a href="{%  url 'profile' pro %}"> {{ pro }}</a>,
+        {% endfor %}
+        </div>
+        <br>
+
+        <div>
+        <h3>Категории:</h3><br>
+        {% for cat in subs.categories.all %}
+            <a href="{%  url 'show_cat' cat.slug %}"> {{ cat }}</a>,
+        {% endfor %}
+        </div>
+        <br>
+
+        <div>
+        <h3>Камеры:</h3><br>
+        {% for cam in subs.cameras.all %}
+            {{ cam }},
+        {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+

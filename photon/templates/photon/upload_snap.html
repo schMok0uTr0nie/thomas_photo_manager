@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}UPLOAD{% endblock %}
+
+{% block content %}
+<div id="upload_snap">
+    <form class="bootstrap-form" method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div id="{{field.name}}" class="form-control" placeholder="{{ field.name }}">{{ field }}  </div>
+        {% endfor %}
+
+        <input type="submit" class="btn btn-success" value="Добавить">
+        <br>
+    </form>
+</div>
+{% endblock %}
