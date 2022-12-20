@@ -32,6 +32,8 @@ urlpatterns = [
     path('subscribe/<slug:cat_slug>', subscribe_cat, name="subscribe_cat"),
     path('unsubscribe/<slug:cat_slug>', unsubscribe_cat, name="unsubscribe_cat"),
 
+    path('search/', SearchView.as_view(), name='search')
+
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS) +\
               static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

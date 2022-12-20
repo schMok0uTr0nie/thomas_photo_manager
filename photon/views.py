@@ -182,7 +182,8 @@ def show_snap(request, pk):
 
     location = [snap.lat, snap.lon]
     m = folium.Map(width=550, height=250, location=location, zoom_start=6)
-    folium.Marker([snap.lat, snap.lon], tooltip=snap.country, popup=snap.city, icon=folium.Icon(color='purple')).add_to(m)
+    folium.Marker([snap.lat, snap.lon], tooltip=snap.country, popup=snap.city, icon=folium.Icon(color='purple')).add_to(
+        m)
     output_file = "photon/templates/photon/blocks/map.html"
     m.save(output_file)
 
@@ -447,3 +448,39 @@ def subscribe_cat(request, cat_slug):
     return redirect(request.META['HTTP_REFERER'])
 
 
+class SearchView(TemplateView):
+    template_name = 'photon/search.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+
+        if request.method == 'GET':
+            query = request.GET.get("q")
+
+            if len(query) > 0:
+                search_pro = Profile.objects.filter(Q(nick__icontains=query)
+                                                    | Q(fio__icontains=query)
+                                                    | Q(city__icontains=query)
+                                                    ).distinct()
+                search_snap = Snapshot.objects.filter(Q(description__icontains=query)
+                                                      | Q(city__icontains=query)
+                                                      | Q(region__icontains=query)
+                                                      | Q(country__icontains=query)
+                                                      ).distinct()
+                search_cat = Category.objects.filter(name__icontains=query)
+                search_cam = Camera.objects.filter(brand__icontains=query)
+                search_pers = Person.objects.filter(name__icontains=query)
+                total = search_pro.count() + search_snap.count() + search_cat.count() + search_cam.count() + search_pers.count()
+            else:
+                return redirect(request.META['HTTP_REFERER'])
+
+            context = {
+                'cats': Category.objects.all(),
+                'total': total,
+                'profiles': search_pro,
+                'snaps': search_snap,
+                'categories': search_cat,
+                'cameras': search_cam,
+                'people': search_pers,
+            }
+            return render(request, self.template_name, context)
