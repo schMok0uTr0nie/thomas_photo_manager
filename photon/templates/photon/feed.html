@@ -20,13 +20,16 @@
         <hr>
         <div class="row">
                 <div class="col-6">
+                    <div>ID: {{ snap.pk }}</div>
                     {% if snap.photo.name %}
                         <a href="{% url 'show_snap' snap.pk %}">
                             <img src="{{ snap.photo.url }}" class="img-thumbnail" width="300px" height="300px">
                         </a>
                         <br>
-                         ID: {{ snap.pk }}
                     {% endif %}
+                        <div class="post-datetime">
+                            {{ snap.timestamp|date:"d M Y H:i" }}
+                        </div>
                 </div>
 
                 <div class="col-6">
@@ -47,9 +50,7 @@
                         {% endif %}
 
 
-                        <div class="post-datetime">
-                            {{ snap.timestamp|date:"d M Y H:i" }}
-                        </div>
+
                         <hr>
 
                         <div class="post-text">
@@ -63,9 +64,9 @@
                             {% endfor %}
                             <br>
                             Местоположение:
-                            {% if snap.city %}{{ snap.city }} | {% endif %}
-                            {% if snap.region %}{{ snap.region }} | {% endif %}
-                            {% if snap.country %}{{ snap.country }}{% endif %}
+                            {% if snap.city %}{{ snap.city }} | {% else %}- | {% endif %}
+                            {% if snap.region %}{{ snap.region }} | {% else %}- | {% endif %}
+                            {% if snap.country %}{{ snap.country }}{% else %}-{% endif %}
                         </div>
                     </div>
                 </div>

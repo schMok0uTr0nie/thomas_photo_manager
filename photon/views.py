@@ -383,7 +383,7 @@ def show_subs(request, nick):
 def show_cats(request, cat_slug=None):
     context = {}
     user = request.user
-    snaps, cats, cat_filter, subscription = None, None, None, None
+    snaps, cats, cat_filter, subscription, ct = None, None, None, None, None
 
     if cat_slug:
         try:
@@ -412,9 +412,10 @@ def show_cats(request, cat_slug=None):
     context = {
         'cats': cats,
         'snaps': snaps,
-        'cat_filter': cat_filter,
+        'snap_filter': cat_filter,
         'cat_slug': cat_slug,
-        'subscription': subscription
+        'subscription': subscription,
+        'cat_name': ct.name
     }
 
     return render(request, "photon/cats.html", context)

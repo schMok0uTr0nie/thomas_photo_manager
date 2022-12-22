@@ -7,7 +7,9 @@ from .models import Snapshot
 
 
 class SnapshotFilter(django_filters.FilterSet):
-    datetime__lte = DateFilter(field_name='timestamp', lookup_expr='timestamp__date__lte', widget=forms.DateInput())
+    datetime__gte = DateFilter(field_name='timestamp', lookup_expr='date__gte', widget=forms.DateInput(), label="От (дата)")
+    datetime__lte = DateFilter(field_name='timestamp', lookup_expr='date__lte', widget=forms.DateInput(), label="До (дата)")
+
     location = django_filters.CharFilter(method='location_filter', label="Город/Регион/Страна")
 
     class Meta:
@@ -18,7 +20,6 @@ class SnapshotFilter(django_filters.FilterSet):
             'author': ['exact'],
             'category': ['exact'],
             'camera': ['exact'],
-            'timestamp': ['date__gte'],
         }
 
     def location_filter(self, queryset, name, value):
@@ -39,7 +40,10 @@ class PortfolioFilter(django_filters.FilterSet):
 
 
 class CatSelectedFilter(django_filters.FilterSet):
-    datetime__lte = DateFilter(field_name='timestamp', lookup_expr='date__lte')
+    datetime__gte = DateFilter(field_name='timestamp', lookup_expr='date__gte', widget=forms.DateInput(),
+                               label="От (дата)")
+    datetime__lte = DateFilter(field_name='timestamp', lookup_expr='date__lte', widget=forms.DateInput(),
+                               label="До (дата)")
 
     class Meta:
         model = Snapshot
@@ -47,5 +51,4 @@ class CatSelectedFilter(django_filters.FilterSet):
             'id': ['exact'],
             'author': ['exact'],
             'camera': ['exact'],
-            'timestamp': ['exact'],
         }

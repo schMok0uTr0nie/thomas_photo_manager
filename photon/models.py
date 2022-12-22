@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -13,7 +15,9 @@ GENDER = [
 
 
 def user_directory_path1(instance, filename):
-    return f'{instance.author.username}/%Y/%m/%d/{filename}'
+    today = datetime.now().date()
+    today_path = today.strftime("%Y/%m/%d")
+    return f'{instance.author.username}/{today_path}/{filename}'
 
 
 class Snapshot(models.Model):

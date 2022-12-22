@@ -51,9 +51,9 @@
                         </div>
                         Камера: {{ snap.camera }} <br>
                         Местоположение:
-                        {% if snap.city %}{{ snap.city }} | {% endif %}
-                        {% if snap.region %}{{ snap.region }} | {% endif %}
-                        {% if snap.country %}{{ snap.country }}{% endif %}
+                        {% if snap.city %}{{ snap.city }} | {% else %}- | {% endif %}
+                        {% if snap.region %}{{ snap.region }} | {% else %}- | {% endif %}
+                        {% if snap.country %}{{ snap.country }}{% else %}-{% endif %}
                     </div>
             </div>
         </div>

@@ -6,7 +6,7 @@
 
 {% block content %}
 
-{% if not cat_filter %}
+{% if not snap_filter %}
     <div class="col-sm text-center" style="width: 300px" >
         <details>
             <summary>Создать новую категорию</summary>
@@ -36,45 +36,34 @@
 
 {% else %}
     <div class="cat_snaps">
+        <h2>категория "<b><em>{{ cat_name }}</em></b>"</h2>
         {% if snaps %}
-        {% for snap in cat_filter.qs %}
+        {% for snap in snap_filter.qs %}
             <div class="card">
                 <div class="card-body post">
                     <div class="post-title">
+                        <div class="post-author">
                         {% if snap.author.profile.avatar.name %}
                             <a href="{% url 'profile' snap.author.profile %}">
-                            <img src="{{ snap.author.profile.avatar.url }}" class="post-author-img img-thumbnail" width="100px" height="100px">
+                            <img src="{{ snap.author.profile.avatar.url }}" class="post-author-img img-thumbnail" width="50px" height="50px">
                             </a>
                         {% else %}
                             <a href="{% url 'profile' snap.author.profile %}">
-                            <img src="{% static 'img/defaultava.png' %}" class="post-author-img img-thumbnail" width="100px" height="100px">
+                            <img src="{% static 'img/defaultava.png' %}" class="post-author-img img-thumbnail" width="50px" height="50px">
                             </a>
                         {% endif %}
-
-                        <div class="post-author">
-                            {{ snap.author.profile }}
-                        </div>
-                        <div class="post-datetime">
-                            {{ snap.datetime|date:"d M Y H:i" }}
+                        Автор: {{ snap.author.profile }}
                         </div>
                     </div>
 
                     {% if snap.photo.name %}
                         <a href="{% url 'show_snap' snap.pk %}">
-                        <img src="{{ snap.photo.url }}" class="img-thumbnail" width="200px" height="200px">
+                        <img src="{{ snap.photo.url }}" class="img-thumbnail" width="300px" height="200px">
                         </a>
                         <br>
                     {% endif %}
-                    <div class="post-text">
-                        {{ snap.description|default_if_none:""|linebreaks|urlize }}
-                        Category:
-                        {% for cat in snap.category.all %}
-                          {{ cat }},
-                        {% endfor %}
-                        {% if snap.city %}{{ snap.city }} | {% endif %}
-                        {% if snap.region %}{{ snap.region }} | {% endif %}
-                        {% if snap.country %}{{ snap.country }}{% endif %}
-
+                    <div class="post-datetime">
+                        {{ snap.timestamp|date:"d M Y H:i" }}
                     </div>
     {#            </div>#}
                 </div>
