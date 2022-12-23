@@ -7,7 +7,7 @@
 {% block content %}
 
 {% if not snap_filter %}
-    <div class="col-sm text-center" style="width: 300px" >
+    <div class="col-sm text-center" style="width: 600px" >
         <details>
             <summary>Создать новую категорию</summary>
             <br>
@@ -18,7 +18,6 @@
                     <input type="text" name="new_category" id="new_category" class="form-control"/>
                     <label class="form-label" for="new_category">Название </label>
                 </div>
-                <br>
                 <button class="btn btn-sm btn-success" type="submit">Создать</button>
             </form>
 
@@ -29,13 +28,16 @@
     <hr>
 
     {% for cat in cats %}
-        <div>
-            <a href="{% url 'show_cat' cat.slug %}" color="green">{{ cat }}</a>
-        </div>
+        {% if forloop.first %}<div style="float:left;">{% endif %}
+            <a href="{% url 'show_cat' cat.slug %}" color="green"><h3>{{ cat }}</h3></a>
+        {% if forloop.counter|divisibleby:3 %}
+            </div><div style="float:left">
+        {% endif %}
+        {% if forloop.last %}</div>{% endif %}
     {% endfor %}
 
 {% else %}
-    <div class="cat_snaps">
+    <div class="cat_snaps text-center">
         <h2>категория "<b><em>{{ cat_name }}</em></b>"</h2>
         {% if snaps %}
         {% for snap in snap_filter.qs %}

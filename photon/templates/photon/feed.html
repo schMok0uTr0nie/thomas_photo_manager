@@ -19,7 +19,7 @@
         {% for snap in snap_filter.qs %}
         <hr>
         <div class="row">
-                <div class="col-6">
+                <div class="col-6 text-center">
                     <div>ID: {{ snap.pk }}</div>
                     {% if snap.photo.name %}
                         <a href="{% url 'show_snap' snap.pk %}">
@@ -54,7 +54,7 @@
                         <hr>
 
                         <div class="post-text">
-                            Описание: {{ snap.description|default_if_none:"" }}
+                            <em>{{ snap.description|default_if_none:"" }}</em>
                             <hr>
                             Камера: {{ snap.camera }}
                             <br>

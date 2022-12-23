@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="container content">
-{% if not selected_user.private and not your_profile %}
+{% if not selected_user.private and your_profile %}
     <div class="row" style="margin-left: 20px;">
 
         <div class="col-6">

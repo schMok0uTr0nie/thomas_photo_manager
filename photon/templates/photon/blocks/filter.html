@@ -1,14 +1,13 @@
+{% load crispy_forms_filters %}
 {% load static %}
 
 
 <div class="col" id="filter">
+    <hr>
     <h4>Фильтры:</h4>
-    <form method="get">
+    <form method="get" class="text-center">
 
-        {% for field in snap_filter.form %}
-            <div id="{{field.name}}" class="form-control">{{ field }}  </div>
-            <label class="form-label text-center" for="{{field.name}}">{{field.label}}</label>
-        {% endfor %}
+        {{ snap_filter.form | crispy }}
         <br>
 
         <button class="btn btn-sm btn-success" type="submit">Применить</button>

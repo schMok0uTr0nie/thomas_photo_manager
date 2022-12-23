@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ photo.description }}{% endblock %}    {# Ограничение до 10 символов + ... #}
-
-{# идеал = всплыв + blur #}
+{% block title %}{{ photo.description }}{% endblock %}
 
 {% block content %}
 <div class="container content">
@@ -37,19 +35,24 @@
     <div class="row">
         <div class="col-6">
             {% if snap.photo.name %}
-                <img src="{{ snap.photo.url }}" class="img-thumbnail" width="200px" height="200px">
+                <img src="{{ snap.photo.url }}" class="img-thumbnail" width="300px" height="300px">
             {% endif %}
         </div>
 
-        <div class="col-6 snap-text">
+        <div class="col-6 snap-text" style="font-size: 18px">
             <br>
+            {{ snap.description|default_if_none:"" }}
+            <hr>
             Камера: {{ snap.camera }} <br>
             Категории:
-            {% for objs in snap.category.all %}
-              {{ objs }},
+            {% for cat in snap.category.all %}
+              {{ cat }},
             {% endfor %}
             <br>
-            Описание:{{ snap.description|default_if_none:"" }}
+            Люди:
+            {% for pers in snap.person.all %}
+              {{ pers }},
+            {% endfor %}
             <br>
             Местоположение:
             {% if snap.city %}{{ snap.city }} | {% else %}- | {% endif %}
@@ -60,12 +63,13 @@
     <br>
 
     <div class="row edit_snap">
-        <div class="col-5">
+        <div class="col-3 text-center">
             <a href="{% url 'edit_snap' snap.pk %}" color="green">Редактировать</a>
         </div> |
-        <div class="col-5">
+        <div class="col-3 text-center">
             <a href="{% url 'delete_snap' snap.pk %}" color="red">Удалить</a>
         </div>
+        <div class="col-6"> </div>
     </div>
     <hr>
 

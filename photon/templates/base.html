@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
+{% load crispy_forms_filters %}
+
 
 <html lang="en">
 <head>
@@ -34,7 +36,7 @@
             {% include 'photon/blocks/sidemenu.html' %}
         </div>
 
-        <div class="col-6 content text-center">
+        <div class="col-6 content">
             {% block content %}
 
             {% endblock %}
@@ -43,7 +45,6 @@
         <div class="col-2">
             <br>
             {% include 'photon/blocks/search_block.html' %}
-            <hr>
             {%  block rightside %}
 
             {% endblock %}

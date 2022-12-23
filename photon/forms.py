@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
 from django import forms
+
 from .models import Profile, Snapshot
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label="Пользо",
+    username = forms.CharField(label="Пользователь",
                     widget=forms.TextInput(attrs={'placeholder': 'Пользователь'}))
-    password = forms.CharField(label="Паро",
+    password = forms.CharField(label="Пароль",
                     widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
 
 

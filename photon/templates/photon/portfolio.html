@@ -8,7 +8,7 @@
 
 {% block content %}
 <br>
-<div class="row">
+<div class="row text-center">
     {% if not your_profile %}
     <h3> Портфолио пользователя: {{ selected_user }} ({{ snaps.count }})</h3>
     {% if subscription %}
@@ -18,7 +18,7 @@
     {% endif %}
 {% else %}
     <h3>Мое портфолио ({{ snaps.count }})</h3>
-    <a href="{% url 'upload_snap' %}" color="green">Загрузить фото</a>
+        <a href="{% url 'upload_snap' %}" color="green"><h5>Загрузить фото</h5></a>
 {% endif %}
 </div>
     <hr>
@@ -27,7 +27,7 @@
     {% if snaps %}
     {% for snap in snap_filter.qs %}
         <div class="row">
-            <div class="col-6">
+            <div class="col-6  text-center">
                 <div class="post-title">
                     <div class="snap-datetime">
                         {{ snap.timestamp|date:"d M Y H:i" }}
@@ -40,7 +40,7 @@
             </div>
 
             <div class="col-6">
-                    <div class="snap-text text-left">
+                    <div class="snap-text">
                         {{ snap.description|default_if_none:""|linebreaks|urlize }}
                         <hr>
                         <div class="snap-category">

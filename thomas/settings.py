@@ -20,7 +20,8 @@ INSTALLED_APPS = [
     'photon',
     'photon_api',
     'rest_framework',
-    'django_filters'
+    'django_filters',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -95,4 +96,4 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

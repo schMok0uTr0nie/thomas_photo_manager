@@ -146,19 +146,19 @@ class EditProfileView(TemplateView):
         if request.method == 'POST':
             form = ProfileForm(request.POST, request.FILES, instance=self.get_profile(request.user))
             cameras = request.POST.get('cameras')
+            nick = request.POST.get('nick')
 
             if form.is_valid():
                 form.instance.user = request.user
                 form.save()
-                form.save_m2m()
 
-                new_pro = Profile.objects.all().order_by('-id').first()
+                pro = Profile.objects.get(nick=nick)
 
-                if new_pro:
+                if pro:
                     for cam in cameras.split(', '):
                         gear = Camera.objects.get_or_create(brand=cam)
-                        if not gear in new_pro.gear.all():
-                            new_pro.gear.add(gear[0])
+                        if not gear in pro.gear.all():
+                            pro.gear.add(gear[0])
 
                 messages.success(request, "Профиль успешно обновлен!")
                 return redirect(reverse("profile", kwargs={'nick': request.user.profile}))
@@ -415,7 +415,7 @@ def show_cats(request, cat_slug=None):
         'snap_filter': cat_filter,
         'cat_slug': cat_slug,
         'subscription': subscription,
-        'cat_name': ct.name
+        'cat_name': ct
     }
 
     return render(request, "photon/cats.html", context)

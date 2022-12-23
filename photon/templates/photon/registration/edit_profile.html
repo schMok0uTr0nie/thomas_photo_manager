@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
 
 {% block title %}Edit profile{% endblock %}
@@ -6,11 +7,11 @@
 {% block content %}
     {% if user.is_authenticated %}
     <div class="container content" style="text-align: center;">
-        <div style="display: inline-block; width: 600px;">
+        <div style="display: inline-block; width: 400px">
             <h2>Расскажи о себе:</h2><br>
             <form method="post" class="bootstrap-form" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form | crispy }}
                 <input type="submit" class="btn btn-success" value="Сохранить">
             </form>
         </div>
