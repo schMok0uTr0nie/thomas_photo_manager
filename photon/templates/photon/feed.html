@@ -35,10 +35,11 @@
                 <div class="col-6">
                     <div class="post-title">
 
-                        <div class="post-author">
+                        <div class="post-author text-center">
                             <a href="{%  url 'profile' snap.author.profile %}">{{ snap.author.profile }}</a>
                         </div>
 
+                        <div class="text-center">
                         {% if snap.author.profile.avatar.name %}
                             <a href="{% url 'profile' snap.author.profile %}">
                                 <img src="{{ snap.author.profile.avatar.url }}" class="post-author-img img-thumbnail" width="100px" height="100px">
@@ -48,7 +49,7 @@
                                 <img src="{% static 'img/defaultava.png' %}" class="post-author-img img-thumbnail" width="100px" height="100px">
                             </a>
                         {% endif %}
-
+                        </div>
 
 
                         <hr>

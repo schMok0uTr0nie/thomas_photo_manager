@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Friends{% endblock %}
+{% block title %}Категории{% endblock %}
 
 {% block content %}
 
@@ -38,7 +38,7 @@
 
 {% else %}
     <div class="cat_snaps text-center">
-        <h2>категория "<b><em>{{ cat_name }}</em></b>"</h2>
+        <h2>категория "<b><em>{{ cat_name }}</em></b>" ({{ cat_name.snap_count }} фото)</h2>
         {% if snaps %}
         {% for snap in snap_filter.qs %}
             <div class="card">
