@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from photon.models import Person
+from photon.models import *
 
 
 class PersonSerializer(serializers.ModelSerializer):
@@ -8,12 +8,26 @@ class PersonSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class SnapSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Snapshot
+        fields = ('id', 'author', 'photo', 'category', 'description',
+                  'person', 'camera', 'city', 'region', 'country', 'timestamp')
 
 
-# class HotelSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Hotel
-#
-#         fields = ("id", "name", "address", "location")
-#
-#         extra_kwargs = {"location": {"read_only": True}}
+class CatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'snap_count')
+
+
+class CamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Camera
+        fields = ('id', 'brand', 'snap_count')
+
+
+class ProfSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('id', 'nick', 'fio', 'contacts', 'gear', 'skill', 'gender', 'city')

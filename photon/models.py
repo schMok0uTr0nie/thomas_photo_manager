@@ -111,9 +111,11 @@ class Person(models.Model):
 class Camera(models.Model):
     brand = models.CharField(max_length=30, verbose_name="Модель камеры")
     slug = models.SlugField(max_length=255, unique=True, db_index=True, blank=True, null=True, verbose_name="URL")
+    snap_count = models.IntegerField(default=0, verbose_name="Всего фотографий")
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.brand)
+        self.snap_count = Snapshot.objects.filter(camera=self).count()
         super(Camera, self).save(*args, **kwargs)
 
     def __str__(self):

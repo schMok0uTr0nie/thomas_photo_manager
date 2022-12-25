@@ -24,7 +24,7 @@ class PersonAdmin(admin.ModelAdmin):
 
 
 class CameraAdmin(admin.ModelAdmin):
-    list_display = ('id', 'brand')
+    list_display = ('id', 'brand', 'snap_count')
     list_display_links = ('id', 'brand',)
     search_fields = ('brand',)
     list_filter = ('brand',)
